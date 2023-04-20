@@ -1,0 +1,7 @@
+{
+  "comments": false,
+  "targets": {
+    "esmodules": true,
+    "browsers": "last 1 years"
+  }
+}
