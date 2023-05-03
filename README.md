@@ -1,9 +1,9 @@
 # Install and Run
 
-1. `git clone `
-2. `cd `
+1. `git clone https://github.com/dosyago/BrowserBoxPro`
+2. `cd BrowserBoxPro`
 3. `./deploy-scripts/global_install.sh`
-4. `setup_bbpro --port `
+4. `setup_bbpro --port 8080`
 5. `bbpro`
 
 # System Requirements (recommended)
