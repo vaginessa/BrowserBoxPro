@@ -6,6 +6,54 @@ get_install_dir() {
   echo $install_dir
 }
 
+os_type() {
+  case "$(uname -s)" in
+    Darwin*) echo "macOS";;
+    Linux*)  echo "Linux";;
+    *)       echo "unknown";;
+  esac
+}
+
+install_nvm() {
+  source ~/.nvm/nvm.sh
+  if ! command -v nvm &>/dev/null; then
+    echo "Installing nvm..."
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+    source ~/.nvm/nvm.sh
+    nvm install node
+  fi
+}
+
+if [ "$#" -eq 1 ]; then
+  hostname="$1"
+
+  if [ "$hostname" == "localhost" ]; then
+    if ! command -v mkcert &>/dev/null; then
+      if [ "$(os_type)" == "macOS" ]; then
+        brew install mkcert
+      else
+        curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/amd64"
+        chmod +x mkcert-v*-linux-amd64
+        sudo cp mkcert-v*-linux-amd64 /usr/local/bin/mkcert
+      fi
+    fi
+    mkcert -install
+  else
+    ip=$(getent hosts "$hostname" | awk '{ print $1 }')
+
+    if [ -n "$ip" ]; then
+      ./deploy-scripts/tls "$hostname"
+    else
+      echo "The provided hostname could not be resolved. Please ensure that you've added a DNS A/AAAA record pointing from the hostname to this machine's public IP address."
+      exit 1
+    fi
+  fi
+else
+  echo "Usage: $0 <hostname>"
+  echo "Please provide a hostname as an argument. This hostname will be where a running bbpro instance is accessible."
+  exit 1
+fi
+
 echo -n "Finding bbpro directory..."
 
 INSTALL_DIR=$(get_install_dir)
@@ -16,11 +64,20 @@ echo "Ensuring fully installed..."
 
 cd $INSTALL_DIR
 
-npm i 
+install_nvm
+npm i
 npm run parcel
 
-if brew install gnu-getopt; then
- brew link --force gnu-getopt
+if [ "$(os_type)" == "macOS" ]; then
+  if brew install gnu-getopt; then
+    brew link --force gnu-getopt
+  fi
+else
+  if ! command -v getopt &>/dev/null; then
+    echo "Installing gnu-getopt for Linux..."
+    sudo apt-get update
+    sudo apt-get install -y gnu-getopt
+  fi
 fi
 
 read -p "Continue?"
@@ -75,5 +132,4 @@ cd $INSTALL_DIR/deploy/
 ./scripts/setup.sh
 
 echo "Install complete!"
-
 
