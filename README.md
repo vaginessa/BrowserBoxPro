@@ -1,6 +1,6 @@
 # Install and Run
 
-:warning: Make sure you're installing from a non `root` user with `sudo` permissons, because some components aren't intended to be installed as root and probably won't work.
+:warning: Make sure you're installing from a non-`root` user with `sudo` permissons, because some components aren't intended to be installed as root and probably won't work, but nevertheless require `sudo`.
 
 1. `git clone https://github.com/dosyago/BrowserBoxPro`
 2. `cd BrowserBoxPro`
