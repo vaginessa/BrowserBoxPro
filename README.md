@@ -1,5 +1,7 @@
 # Install and Run
 
+:warning: Make sure you're installing from a non `root` user with `sudo` permissons, because some components aren't intended to be installed as root and probably won't work.
+
 1. `git clone https://github.com/dosyago/BrowserBoxPro`
 2. `cd BrowserBoxPro`
 3. `./deploy-scripts/global_install.sh`
