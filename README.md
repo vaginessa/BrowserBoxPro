@@ -19,7 +19,7 @@ Then, use the login link output in step 4 to connect to the virtual browser (fro
 
 # System Requirements (recommended)
 
-Debian VPS with 2 core, 4 GB RAM, and 100 GB SSD, and at least 10 Mbps connection, *plus a public hostname with a DNS A record pointing to the IP of your VPS, because we provision a TLS certificate for that hostname, and it forms part of the long link!*
+Debian VPS with 2 core, 4 GB RAM, and 100 GB SSD, and at least 10 Mbps connection, *plus a public hostname with a DNS A record pointing to the IP of your VPS, because we provision a TLS certificate for that hostname, and it forms part of the login link!*
 
 Actual requirements depends on what you browse, but the above should give good performance on a range of real-world browsing tasks. If you need better performance, use better hardware.
 
